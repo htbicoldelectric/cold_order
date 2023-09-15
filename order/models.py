@@ -7,7 +7,7 @@ class Clients(models.Model):
     client_id = models.TextField(unique=True, default="")
     company_name = models.TextField()
     contact = models.TextField()
-    phone = models.TextField()
+    phone = models.TextField(null=False, default="")
     person_in_charge = models.TextField()
     address = models.TextField()
     capital = models.IntegerField()
