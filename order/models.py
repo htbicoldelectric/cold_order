@@ -8,10 +8,10 @@ class Clients(models.Model):
     company_name = models.TextField()
     contact = models.TextField()
     phone = models.TextField(null=False, default="")
-    person_in_charge = models.TextField()
-    address = models.TextField()
-    capital = models.IntegerField()
-    listed = models.BooleanField()
+    person_in_charge = models.TextField(null=False, default="")
+    address = models.TextField(null=False, default="")
+    capital = models.IntegerField(null=False, default=0)
+    listed = models.BooleanField(null=False, default=False)
 
     class Meta:
         db_table = "clients"
