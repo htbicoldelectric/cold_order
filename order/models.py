@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Clients(models.Model):
-    client_id = models.TextField(unique=True, default="")
+    client_id = models.TextField(unique=True)
     company_name = models.TextField()
     contact = models.TextField()
     phone = models.TextField(null=False, default="")
@@ -18,7 +18,7 @@ class Clients(models.Model):
 
 
 class SalesPeople(models.Model):
-    salesperson_id = models.TextField(unique=True, default="")
+    salesperson_id = models.TextField(unique=True)
     name = models.TextField()
     grade = models.TextField()
 
@@ -27,7 +27,7 @@ class SalesPeople(models.Model):
 
 
 class Pcs(models.Model):
-    pcs_id = models.TextField(unique=True, default="")
+    pcs_id = models.TextField(unique=True)
     name = models.TimeField()
     price = models.IntegerField()
 
@@ -36,7 +36,7 @@ class Pcs(models.Model):
 
 
 class Orders(models.Model):
-    order_id = models.TextField(unique=True, default="")
+    order_id = models.TextField(unique=True)
     date = models.DateField()
     client_id = models.ForeignKey(Clients, on_delete=models.PROTECT)
     saleperson_id = models.ForeignKey(SalesPeople, on_delete=models.PROTECT)
