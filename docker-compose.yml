@@ -1,0 +1,69 @@
+version: '3'
+services:
+
+    #db:
+    #  container_name: postgres
+    #  image: postgres
+    #  environment:
+    #    POSTGRES_PASSWORD: password123
+    #   ports:
+    #     - "5432:5432"
+    #     (HOST:CONTAINER)
+    #  volumes:
+    #    - pgdata:/var/lib/postgresql/data/
+
+    nginx:
+        container_name: nginx-container
+        build: ./nginx
+        restart: always
+        ports:
+        # - "8000:80"
+        - "80:80"
+        volumes:
+        - api_data:/docker_api
+        - ./log:/var/log/nginx
+        - ./my_htpasswd:/my_htpasswd
+        depends_on:
+        - api
+
+    api:
+        container_name: bms-api-container
+        build: .
+        restart: always
+        entrypoint: /docker_api/docker-entrypoint.sh
+        # command: uwsgi  --emperor uwsgi.ini
+        command: uwsgi --ini uwsgi.ini
+
+        # ref.
+        # https://docs.djangoproject.com/en/3.0/ref/django-admin/#django-admin-createsuperuser
+        environment:
+          - DJANGO_SUPERUSER_USERNAME=htbi
+          - DJANGO_SUPERUSER_PASSWORD=aa27763923
+          - DJANGO_SUPERUSER_EMAIL=ernielin@htbi.com.tw
+
+        # ports:
+        # - "8002:8000"
+        volumes:
+        - api_data:/docker_api
+        #depends_on:
+        #- db
+
+    # auto migrate django
+    # migration:
+    #     build: ./api
+    #     command:
+    #         - /bin/sh
+    #         - -c
+    #         - |
+    #           python manage.py collectstatic --noinput
+    #           python manage.py migrate
+    #           python manage.py makemigrations musics
+    #           python manage.py migrate
+    #     volumes:
+    #     - api_data:/docker_api
+    #     depends_on:
+    #     - db
+
+volumes:
+    api_data:
+#    pgdata:
