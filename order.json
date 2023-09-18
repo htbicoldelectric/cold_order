@@ -17,7 +17,7 @@
     },
     "order_list": [
         {
-            "type": "商業儲能",
+            "product": "商業儲能",
             "price":100000,
             "notice": "1.距離民宅需30公尺 2.消防需符合和需求 3.距離工業廠房需3公尺",
             "note": "1. 出貨前需與廠商協調",
@@ -26,7 +26,8 @@
                 "envirment": "室內",
                 "pcs": [
                     {
-                        "type": "OZTEK",
+                        "manufactor": "OZTEK",
+                        "model":"",
                         "amount": 1
                     }
                 ],
@@ -34,14 +35,15 @@
             }
         },
         {
-            "type": "家用儲能",
+            "product": "家用儲能",
             "price":100000,
             "content": {
                 "amount": 1,
                 "envirment": "室內",
                 "pcs": [
                     {
-                        "type": "PomCube",
+                        "manufactor": "PomCube",
+                        "model":"",
                         "amount": 1
                     }
                 ],
@@ -49,14 +51,15 @@
             }
         },
         {
-            "type": "20呎儲能",
+            "product": "20呎儲能",
             "price":100000,
             "content": {
                 "amount": 1,
                 "envirment": "室內",
                 "pcs": [
                     {
-                        "type": "PomCube",
+                        "manufactor": "PomCube",
+                        "model":"",
                         "amount": 1
                     }
                 ],
