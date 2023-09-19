@@ -12,17 +12,17 @@ class Clients(models.Model):
     listed = models.BooleanField(null=False, default=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "clients"
 
 
 class SalesPeople(models.Model):
-    saleperson_id = models.TextField(unique=True)
+    salesperson_id = models.TextField(unique=True)
     name = models.TextField()
     grade = models.TextField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "salepeople"
 
 
@@ -32,7 +32,7 @@ class Pcs(models.Model):
     price = models.IntegerField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "pcs"
 
 
@@ -42,7 +42,7 @@ class Products(models.Model):
     price = models.IntegerField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "products"
 
 
@@ -61,7 +61,7 @@ class Cases(models.Model):
     vpc_engineer = models.TextField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "cases"
 
 
@@ -75,15 +75,15 @@ class Orders(models.Model):
     contact = models.TextField()
     order_type = models.TextField()
     oder_amount = models.IntegerField()
-    pcs = models.ForeignKey(Pcs, models.PROTECT)
-    pcs_amount = models.IntegerField(null=False)
+    pcs_id = models.ForeignKey(Pcs, models.PROTECT)
+    pcs_amount = models.IntegerField()
     batery_module_amount = models.IntegerField()
     notice = models.TextField(blank=True, null=True)
     note = models.TextField(blank=True, null=True)
     cancel = models.BooleanField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "orders"
 
 
@@ -96,7 +96,7 @@ class ProductOrders(models.Model):
     cancel = models.BooleanField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "product_orders"
 
 class PcsProductOrders(models.Model):
@@ -106,5 +106,5 @@ class PcsProductOrders(models.Model):
     product_order = models.ForeignKey(ProductOrders, models.PROTECT)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = "pcs_product_orders"
