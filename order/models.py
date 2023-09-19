@@ -17,7 +17,7 @@ class Clients(models.Model):
 
 
 class SalesPeople(models.Model):
-    salesperson_id = models.TextField(unique=True)
+    saleperson_id = models.TextField(unique=True)
     name = models.TextField()
     grade = models.TextField()
 
@@ -28,7 +28,7 @@ class SalesPeople(models.Model):
 
 class Pcs(models.Model):
     pcs_id = models.TextField(unique=True)
-    name = models.TimeField()
+    name = models.TextField()
     price = models.IntegerField()
 
     class Meta:
@@ -46,16 +46,36 @@ class Products(models.Model):
         db_table = "products"
 
 
+class Cases(models.Model):
+    case_id = models.TextField(unique=True)
+    address = models.TextField()
+    construction_start = models.DateField()
+    construction_pre_end = models.DateField()
+    construction_end = models.DateField(null=True)
+    name = models.TextField()
+    construction_team = models.TextField()
+    electrical_engineer = models.TextField()
+    firefighting_engineer = models.TextField()
+    contact = models.TextField()
+    phone = models.TextField()
+    vpc_engineer = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = "cases"
+
+
 class Orders(models.Model):
     order_id = models.TextField(unique=True)
     date = models.DateField()
-    client_id = models.ForeignKey(Clients, models.PROTECT)
-    saleperson_id = models.ForeignKey(SalesPeople, models.PROTECT)
+    client = models.ForeignKey(Clients, models.PROTECT)
+    salesperson = models.ForeignKey(SalesPeople, models.PROTECT)
     deliver_address = models.TextField()
+    case = models.ForeignKey(Cases, models.PROTECT)
     contact = models.TextField()
     order_type = models.TextField()
     oder_amount = models.IntegerField()
-    pcs_id = models.ForeignKey(Pcs, models.PROTECT)
+    pcs = models.ForeignKey(Pcs, models.PROTECT)
     pcs_amount = models.IntegerField(null=False)
     batery_module_amount = models.IntegerField()
     notice = models.TextField(blank=True, null=True)
@@ -69,12 +89,22 @@ class Orders(models.Model):
 
 class ProductOrders(models.Model):
     product_order_id = models.TextField(unique=True)
-    product_id = models.ForeignKey(Products, models.PROTECT)
+    product = models.ForeignKey(Products, models.PROTECT)
     amount = models.IntegerField()
     total_price = models.IntegerField()
-    order_id = models.ForeignKey(Orders, models.PROTECT)
+    order = models.ForeignKey(Orders, models.PROTECT)
     cancel = models.BooleanField()
 
     class Meta:
         managed = False
         db_table = "product_orders"
+
+class PcsProductOrders(models.Model):
+    pcs_product_order_id = models.TextField(unique=True)
+    pcs = models.ForeignKey(Pcs, models.PROTECT)
+    amount = models.IntegerField()
+    product_order = models.ForeignKey(ProductOrders, models.PROTECT)
+
+    class Meta:
+        managed = False
+        db_table = "pcs_product_orders"
