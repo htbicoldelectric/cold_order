@@ -1,0 +1,11 @@
+{
+    "order_apartment": "RO1",
+    "order_date": "2023/9/14",
+    "delivery_date": "2023/9/14",
+    "client_id": "COLD-B001",
+    "salespeson_id": "COLD-B001",
+    "delivery_address": "新北市味王街55號",
+    "total_price": 10000000,
+    "case_id": "202309140001",
+    "products": [1,2,3]
+}

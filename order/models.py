@@ -1,110 +1,177 @@
 from django.db import models
+from datetime import datetime
+import uuid
 
 
 class Clients(models.Model):
-    client_id = models.TextField(unique=True)
-    company_name = models.TextField()
-    contact = models.TextField()
-    phone = models.TextField(null=False, default="")
-    person_in_charge = models.TextField(null=False, default="")
-    address = models.TextField(null=False, default="")
+    client_id = models.CharField(
+        primary_key=True, unique=True, editable=False, max_length=64
+    )
+    company_name = models.CharField(max_length=64)
+    contact = models.CharField(max_length=64)
+    phone = models.CharField(null=False, default="", max_length=64)
+    person_in_charge = models.CharField(null=False, default="", max_length=64)
+    address = models.CharField(null=False, default="", max_length=64)
     capital = models.IntegerField(null=False, default=0)
     listed = models.BooleanField(null=False, default=False)
 
     class Meta:
         managed = True
         db_table = "clients"
+        app_label = "order"
+
+    def save(self, *args, **kwargs):
+        if not self.case_id:
+            t = datetime.today()
+            self.case_id = "COLD-C" + str(uuid.uuid4())
+        while Clients.objects.filter(serial_number=self.case_id).exists():
+            self.case_id = "COLD-C" + str(uuid.uuid4())
+        super(Clients, self).save(*args, **kwargs)
 
 
 class SalesPeople(models.Model):
-    salesperson_id = models.TextField(unique=True)
-    name = models.TextField()
-    grade = models.TextField()
+    salesperson_id = models.CharField(
+        primary_key=True, unique=True, editable=False, max_length=64
+    )
+    name = models.CharField(max_length=64)
+    grade = models.CharField(max_length=64)
 
     class Meta:
         managed = True
         db_table = "salepeople"
+        app_label = "order"
+
+    def save(self, *args, **kwargs):
+        if not self.case_id:
+            t = datetime.today()
+            self.case_id = "COLD-S" + str(uuid.uuid4())
+        while SalesPeople.objects.filter(serial_number=self.case_id).exists():
+            self.case_id = "COLD-S" + str(uuid.uuid4())
+        super(SalesPeople, self).save(*args, **kwargs)
 
 
 class Pcs(models.Model):
-    pcs_id = models.TextField(unique=True)
-    name = models.TextField()
+    pcs_id = models.CharField(
+        primary_key=True, unique=True, editable=False, max_length=64
+    )
+    name = models.CharField(max_length=64)
     price = models.IntegerField()
 
     class Meta:
         managed = True
         db_table = "pcs"
+        app_label = "order"
+
+    def save(self, *args, **kwargs):
+        if not self.case_id:
+            t = datetime.today()
+            self.case_id = "COLD-P" + str(uuid.uuid4())
+        while Pcs.objects.filter(serial_number=self.case_id).exists():
+            self.case_id = "COLD-P" + str(uuid.uuid4())
+        super(Pcs, self).save(*args, **kwargs)
 
 
 class Products(models.Model):
-    product_id = models.TextField(unique=True)
-    name = models.TextField()
+    product_id = models.CharField(
+        primary_key=True, unique=True, editable=False, max_length=64
+    )
+    name = models.CharField(max_length=64)
     price = models.IntegerField()
 
     class Meta:
         managed = True
         db_table = "products"
+        app_label = "order"
+
+    def save(self, *args, **kwargs):
+        if not self.case_id:
+            t = datetime.today()
+            self.case_id = "COLD_I" + str(uuid.uuid4())
+        while Products.objects.filter(serial_number=self.case_id).exists():
+            self.case_id = "COLD_I" + str(uuid.uuid4())
+        super(Products, self).save(*args, **kwargs)
 
 
 class Cases(models.Model):
-    case_id = models.TextField(unique=True)
-    address = models.TextField()
+    case_id = models.CharField(
+        primary_key=True, unique=True, editable=False, max_length=64
+    )
+    address = models.CharField(max_length=64)
     construction_start = models.DateField()
     construction_pre_end = models.DateField()
     construction_end = models.DateField(null=True)
-    name = models.TextField()
-    construction_team = models.TextField()
-    electrical_engineer = models.TextField()
-    firefighting_engineer = models.TextField()
-    contact = models.TextField()
-    phone = models.TextField()
-    vpc_engineer = models.TextField()
+    name = models.CharField(max_length=64)
+    construction_team = models.CharField(max_length=64)
+    electrical_engineer = models.CharField(max_length=64)
+    firefighting_engineer = models.CharField(max_length=64)
+    contact = models.CharField(max_length=64)
+    phone = models.CharField(max_length=64)
+    vpc_engineer = models.CharField(max_length=64)
+    notice = models.CharField(blank=True, null=True, max_length=64)
+    note = models.CharField(blank=True, null=True, max_length=64)
 
     class Meta:
         managed = True
         db_table = "cases"
+        app_label = "order"
+
+    def save(self, *args, **kwargs):
+        if not self.case_id:
+            t = datetime.today()
+            self.case_id = f"case{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
+        while Cases.objects.filter(serial_number=self.case_id).exists():
+            self.case_id = f"case{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
+        super(Cases, self).save(*args, **kwargs)
 
 
 class Orders(models.Model):
-    order_id = models.TextField(unique=True)
-    date = models.DateField()
+    order_id = models.CharField(
+        primary_key=True, unique=True, editable=False, max_length=64
+    )
     client = models.ForeignKey(Clients, models.PROTECT)
+    order_apartment = models.CharField(max_length=64)
+    order_date = models.DateField()
+    delivery_date = models.DateField()
     salesperson = models.ForeignKey(SalesPeople, models.PROTECT)
-    deliver_address = models.TextField()
+    deliver_address = models.CharField(max_length=64)
     case = models.ForeignKey(Cases, models.PROTECT)
-    contact = models.TextField()
-    order_type = models.TextField()
-    oder_amount = models.IntegerField()
-    pcs_id = models.ForeignKey(Pcs, models.PROTECT)
-    pcs_amount = models.IntegerField()
-    batery_module_amount = models.IntegerField()
-    notice = models.TextField(blank=True, null=True)
-    note = models.TextField(blank=True, null=True)
-    cancel = models.BooleanField()
+    contact = models.CharField(max_length=64)
+    total_price = models.IntegerField()
 
     class Meta:
         managed = True
         db_table = "orders"
+        app_label = "order"
+
+    def save(self, *args, **kwargs):
+        if not self.case_id:
+            t = datetime.today()
+            self.case_id = f"order{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
+        while Orders.objects.filter(serial_number=self.case_id).exists():
+            self.case_id = f"order{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
+        super(Orders, self).save(*args, **kwargs)
 
 
-class ProductOrders(models.Model):
-    product_order_id = models.TextField(unique=True)
+class CaseCart(models.Model):
+    case_cart_id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Products, models.PROTECT)
     amount = models.IntegerField()
     total_price = models.IntegerField()
     order = models.ForeignKey(Orders, models.PROTECT)
-    cancel = models.BooleanField()
 
     class Meta:
         managed = True
-        db_table = "product_orders"
+        db_table = "case_cart"
+        app_label = "order"
+
 
 class PcsProductOrders(models.Model):
-    pcs_product_order_id = models.TextField(unique=True)
+    pcs_product_order_id = models.AutoField(primary_key=True)
     pcs = models.ForeignKey(Pcs, models.PROTECT)
     amount = models.IntegerField()
-    product_order = models.ForeignKey(ProductOrders, models.PROTECT)
+    product_order = models.ForeignKey(CaseCart, models.PROTECT)
 
     class Meta:
         managed = True
         db_table = "pcs_product_orders"
+        app_label = "order"

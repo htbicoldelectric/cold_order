@@ -1,5 +1,5 @@
 # Create your views here.
-from order.models import Orders, Clients, SalesPeople
+from order.models import *
 from order.serializers import *
 from rest_framework import viewsets
 
@@ -8,6 +8,14 @@ from rest_framework import viewsets
 class OrdersViewSet(viewsets.ModelViewSet):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer
+
+class CasesViewSet(viewsets.ModelViewSet):
+    queryset = Cases.objects.all()
+    serializer_class = CasesSerializer
+
+class ProductsViewSet(viewsets.ModelViewSet):
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
 
 
 class ClientsViewSet(viewsets.ModelViewSet):
@@ -21,5 +29,5 @@ class SalePeopleViewSet(viewsets.ModelViewSet):
 
 
 class PcsViewSet(viewsets.ModelViewSet):
-    queryset = SalesPeople.objects.all()
+    queryset = Pcs.objects.all()
     serializer_class = PcsSerializer

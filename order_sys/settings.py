@@ -80,10 +80,20 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "order_db": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "coldorder",
+        "USER": "computer01",
+        "PASSWORD": "-wF26y#3xUpp",
+        "HOST": "htbibms.cluster-ccv1ay0ci1rc.ap-southeast-2.rds.amazonaws.com",
+        "PORT": "3306",
+    },
 }
-
-
+DATABASE_APPS_MAPPING = {
+    "order": "order_db",
+}
+DATABASE_ROUTERS = ["order_sys.router.DatabaseAppsRouter"]
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -119,7 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = Path('/').joinpath(BASE_DIR, 'static/')
+STATIC_ROOT = Path("/").joinpath(BASE_DIR, "static/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

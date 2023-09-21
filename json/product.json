@@ -1,0 +1,19 @@
+{
+    "order_id": 1,
+    "product_id": 1,
+    "price":100000,
+    "notice": "1.距離民宅需30公尺 2.消防需符合和需求 3.距離工業廠房需3公尺",
+    "note": "1. 出貨前需與廠商協調",
+    "content": {
+        "amount": 1,
+        "envirment": "室內",
+        "pcs": [
+            {
+                "manufactor": "OZTEK",
+                "model":"",
+                "amount": 1
+            }
+        ],
+        "module_amount": 14
+    }
+}

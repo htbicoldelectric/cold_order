@@ -6,17 +6,8 @@
     "salespeson_id": "COLD-B001",
     "delivery_address": "新北市味王街55號",
     "total_price": 10000000,
-    "case": {
-        "name": "高雄小港",
-        "construction_team": "華城電機",
-        "electrical_engineer": "蔡錫榮",
-        "address": "新北市味王街55號",
-        "firefighting_engineer": "消防協會",
-        "contact": "簡培任",
-        "phone": "0921245989",
-        "VPC_engineer": "暐誠"
-    },
-    "order_list": [
+    "case_id": "20230921abcd",
+    "product_list": [
         {
             "product": "商業儲能",
             "price":100000,
