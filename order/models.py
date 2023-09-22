@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 import uuid
+import hashlib
 
 
 class Clients(models.Model):
@@ -21,11 +22,11 @@ class Clients(models.Model):
         app_label = "order"
 
     def save(self, *args, **kwargs):
-        if not self.case_id:
+        if not self.client_id:
             t = datetime.today()
-            self.case_id = "COLD-C" + str(uuid.uuid4())
-        while Clients.objects.filter(serial_number=self.case_id).exists():
-            self.case_id = "COLD-C" + str(uuid.uuid4())
+            self.client_id = "COLD-C" + str(uuid.uuid4())
+        while Clients.objects.filter(client_id=self.client_id).exists():
+            self.client_id = "COLD-C" + str(uuid.uuid4())
         super(Clients, self).save(*args, **kwargs)
 
 
@@ -33,6 +34,8 @@ class SalesPeople(models.Model):
     salesperson_id = models.CharField(
         primary_key=True, unique=True, editable=False, max_length=64
     )
+    account = models.CharField(max_length=32)
+    password = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
     grade = models.CharField(max_length=64)
 
@@ -42,11 +45,11 @@ class SalesPeople(models.Model):
         app_label = "order"
 
     def save(self, *args, **kwargs):
-        if not self.case_id:
+        if not self.salesperson_id:
             t = datetime.today()
-            self.case_id = "COLD-S" + str(uuid.uuid4())
-        while SalesPeople.objects.filter(serial_number=self.case_id).exists():
-            self.case_id = "COLD-S" + str(uuid.uuid4())
+            self.salesperson_id = "COLD-S" + str(uuid.uuid4())
+        while SalesPeople.objects.filter(salesperson_id=self.salesperson_id).exists():
+            self.salesperson_id = "COLD-S" + str(uuid.uuid4())
         super(SalesPeople, self).save(*args, **kwargs)
 
 
@@ -63,11 +66,11 @@ class Pcs(models.Model):
         app_label = "order"
 
     def save(self, *args, **kwargs):
-        if not self.case_id:
+        if not self.pcs_id:
             t = datetime.today()
-            self.case_id = "COLD-P" + str(uuid.uuid4())
-        while Pcs.objects.filter(serial_number=self.case_id).exists():
-            self.case_id = "COLD-P" + str(uuid.uuid4())
+            self.pcs_id = "COLD-P" + str(uuid.uuid4())
+        while Pcs.objects.filter(pcs_id=self.pcs_id).exists():
+            self.pcs_id = "COLD-P" + str(uuid.uuid4())
         super(Pcs, self).save(*args, **kwargs)
 
 
@@ -84,11 +87,11 @@ class Products(models.Model):
         app_label = "order"
 
     def save(self, *args, **kwargs):
-        if not self.case_id:
+        if not self.product_id:
             t = datetime.today()
-            self.case_id = "COLD_I" + str(uuid.uuid4())
-        while Products.objects.filter(serial_number=self.case_id).exists():
-            self.case_id = "COLD_I" + str(uuid.uuid4())
+            self.product_id = "COLD_I" + str(uuid.uuid4())
+        while Products.objects.filter(product_id=self.product_id).exists():
+            self.product_id = "COLD_I" + str(uuid.uuid4())
         super(Products, self).save(*args, **kwargs)
 
 
@@ -119,7 +122,7 @@ class Cases(models.Model):
         if not self.case_id:
             t = datetime.today()
             self.case_id = f"case{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
-        while Cases.objects.filter(serial_number=self.case_id).exists():
+        while Cases.objects.filter(case_id=self.case_id).exists():
             self.case_id = f"case{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
         super(Cases, self).save(*args, **kwargs)
 
@@ -144,11 +147,11 @@ class Orders(models.Model):
         app_label = "order"
 
     def save(self, *args, **kwargs):
-        if not self.case_id:
+        if not self.order_id:
             t = datetime.today()
-            self.case_id = f"order{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
-        while Orders.objects.filter(serial_number=self.case_id).exists():
-            self.case_id = f"order{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
+            self.order_id = f"order{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
+        while Orders.objects.filter(order_id=self.order_id).exists():
+            self.order_id = f"order{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
         super(Orders, self).save(*args, **kwargs)
 
 
