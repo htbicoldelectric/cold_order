@@ -1,7 +1,7 @@
 from django.db import models
+from django.conf import settings
 from datetime import datetime
-import uuid
-import hashlib
+import uuid, binascii, os
 
 
 class Clients(models.Model):
@@ -34,7 +34,7 @@ class SalesPeople(models.Model):
     salesperson_id = models.CharField(
         primary_key=True, unique=True, editable=False, max_length=64
     )
-    account = models.CharField(max_length=32)
+    account = models.CharField(max_length=32, unique=True)
     password = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
     grade = models.CharField(max_length=64)
@@ -51,6 +51,25 @@ class SalesPeople(models.Model):
         while SalesPeople.objects.filter(salesperson_id=self.salesperson_id).exists():
             self.salesperson_id = "COLD-S" + str(uuid.uuid4())
         super(SalesPeople, self).save(*args, **kwargs)
+
+
+class Token(models.Model):
+    """
+    The default authorization token model.
+    """
+
+    token = models.CharField(max_length=40, primary_key=True)
+    user = models.OneToOneField(SalesPeople, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = self.generate_key()
+        return super().save(*args, **kwargs)
+
+    @classmethod
+    def generate_key(cls):
+        return binascii.hexlify(os.urandom(20)).decode()
 
 
 class Pcs(models.Model):
