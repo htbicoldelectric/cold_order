@@ -24,6 +24,7 @@ class SalesPeopleSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
+    success = BooleanField()
     class Meta:
         model = Token
         fields = ["token"]

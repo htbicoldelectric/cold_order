@@ -53,7 +53,7 @@ class LoginoutViewSet(viewsets.ModelViewSet):
         salepeople = SalesPeople.objects.filter(account=account).first()
         if salepeople and salepeople.password == password:
             token, created = Token.objects.get_or_create(user=salepeople)
-            return Response({"token": token.token}, status=status.HTTP_200_OK)
+            return Response({"success":True, "token": token.token}, status=status.HTTP_200_OK)
         else:
             return Response(
                 {"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
