@@ -12,7 +12,7 @@ router.register(r"case", views.CasesViewSet)
 router.register(r'pcs', views.PcsViewSet)
 router.register(r"product", views.ProductsViewSet)
 router.register(r"client", views.ClientsViewSet)
-router.register(r"account", views.LoginoutViewSet)
+router.register(r"login", views.LoginoutViewSet)
 router.register(r"signup", views.SignupViewSet)
 
 schema_view = get_schema_view(

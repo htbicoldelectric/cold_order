@@ -12,37 +12,41 @@ from rest_framework.response import Response
 class OrdersViewSet(viewsets.ModelViewSet):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer
+    http_method_names = ['get','post']
 
 
 class CasesViewSet(viewsets.ModelViewSet):
     queryset = Cases.objects.all()
     serializer_class = CasesSerializer
+    http_method_names = ['get','post']
 
 
 class ProductsViewSet(viewsets.ModelViewSet):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
+    http_method_names = ['get','post']
 
 
 class ClientsViewSet(viewsets.ModelViewSet):
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializer
+    http_method_names = ['get','post']
 
 
 class SignupViewSet(viewsets.ModelViewSet):
     queryset = SalesPeople.objects.all()
     serializer_class = SalesPeopleSerializer
+    http_method_names = ['get','post']
 
 
 class LoginoutViewSet(viewsets.ModelViewSet):
     queryset = SalesPeople.objects.all()
     serializer_class = LoginoutSerializer
-
-    @action(detail=False, methods=["post"])
-    @swagger_auto_schema(
-        responses={200: TokenSerializer()}
-    )
-    def login(self, request):
+    http_method_names = ['post']
+    
+    #@action(detail=False, methods=["post"])
+    @swagger_auto_schema(responses={200: TokenSerializer()})
+    def create(self, request):
         account = request.data.get("account")
         password = request.data.get("password")
         password = hashlib.md5(password.encode()).hexdigest()
@@ -72,3 +76,4 @@ class LoginoutViewSet(viewsets.ModelViewSet):
 class PcsViewSet(viewsets.ModelViewSet):
     queryset = Pcs.objects.all()
     serializer_class = PcsSerializer
+    http_method_names = ['get','post']
