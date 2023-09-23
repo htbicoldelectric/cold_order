@@ -35,9 +35,13 @@ class ClientsViewSet(viewsets.ModelViewSet):
 
 class SignupViewSet(viewsets.ModelViewSet):
     queryset = SalesPeople.objects.all()
-    serializer_class = SalesPeopleSerializer
-    http_method_names = ["get", "post"]
+    serializer_class = SignupSerializer
+    http_method_names = ["post"]
 
+class SalepeopleViewSet(viewsets.ModelViewSet):
+    queryset = SalesPeople.objects.all()
+    serializer_class = SignupSerializer
+    http_method_names = ["get"]
 
 class LoginViewSet(viewsets.ModelViewSet):
     queryset = SalesPeople.objects.all()

@@ -8,8 +8,13 @@ class ClientsSerializer(serializers.ModelSerializer):
         model = Clients
         fields = "__all__"
 
+class SalePeopleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesPeople
+        fields = "__all__"
 
-class SalesPeopleSerializer(serializers.ModelSerializer):
+
+class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalesPeople
         fields = "__all__"
