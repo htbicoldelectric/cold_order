@@ -61,7 +61,10 @@ class Token(models.Model):
     token = models.CharField(max_length=40, primary_key=True)
     user = models.OneToOneField(SalesPeople, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
-
+    @property
+    def success(self)->bool:
+        return True
+    
     def save(self, *args, **kwargs):
         if not self.token:
             self.token = self.generate_key()

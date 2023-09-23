@@ -24,22 +24,32 @@ class SalesPeopleSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    success = BooleanField()
+    success = serializers.BooleanField()
+
     class Meta:
         model = Token
-        fields = ["token"]
+        fields = ["token", "success"]
         extra_kwargs = {
-            "token": {"read_only": True},
+            "success": {"read_only": True},
         }
 
 
-class LoginoutSerializer(serializers.ModelSerializer):
+class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalesPeople
         fields = ["account", "password"]
         extra_kwargs = {
             "account": {"write_only": True},
             "password": {"write_only": True},
+        }
+
+class LogoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = ["token", "success"]
+        extra_kwargs = {
+            "token": {"write_only": True},
+            "success": {"read_only": True},
         }
 
 
