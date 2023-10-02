@@ -1,5 +1,6 @@
 log/
 __pycache__
 order/migrations
-nginx.crt
-nginx.key
+ca_bundle.crt
+certificate.crt
+private.key
