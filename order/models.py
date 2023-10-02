@@ -61,10 +61,11 @@ class Token(models.Model):
     token = models.CharField(max_length=40, primary_key=True)
     user = models.OneToOneField(SalesPeople, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+
     @property
-    def success(self)->bool:
+    def success(self) -> bool:
         return True
-    
+
     def save(self, *args, **kwargs):
         if not self.token:
             self.token = self.generate_key()
@@ -122,9 +123,9 @@ class Cases(models.Model):
         primary_key=True, unique=True, editable=False, max_length=64
     )
     address = models.CharField(max_length=64)
-    construction_start = models.DateField()
-    construction_pre_end = models.DateField()
-    construction_end = models.DateField(null=True)
+    construction_start = models.DateField(null=True, default="")
+    construction_pre_end = models.DateField(null=True, default="")
+    construction_end = models.DateField(null=True, default="")
     name = models.CharField(max_length=64)
     construction_team = models.CharField(max_length=64)
     electrical_engineer = models.CharField(max_length=64)
