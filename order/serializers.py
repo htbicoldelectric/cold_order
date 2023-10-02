@@ -108,7 +108,7 @@ class CasesSerializer(serializers.ModelSerializer):
 
 class OrdersSerializer(serializers.ModelSerializer):
     product_list = CaseCartSerializer(many=True)
-    token = LoginTokenSerializer()
+    #token = LoginTokenSerializer()
 
     class Meta:
         model = Orders
