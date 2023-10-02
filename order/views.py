@@ -57,8 +57,7 @@ class LoginViewSet(viewsets.ModelViewSet):
                 {"error": "Not logged in"}, status=status.HTTP_401_UNAUTHORIZED
             )
 
-    # @action(detail=False, methods=["post"])
-    @swagger_auto_schema(responses={200: TokenSerializer()})
+    @swagger_auto_schema(responses={200: LoginTokenSerializer()})
     def create(self, request):
         account = request.data.get("account")
         password = request.data.get("password")

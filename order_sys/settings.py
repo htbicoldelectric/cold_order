@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-mgz96eoowot!qu1!$az9f@fnqz4sm(el-*mf#shjx6inmby)cj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["api.coldelectric.com"]
+ALLOWED_HOSTS = ["api.coldelectric.com", "127.0.0.1"]
 
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    #"django.middleware.security.SecurityMiddleware",
+    # "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -136,3 +136,17 @@ STATIC_ROOT = Path("/").joinpath(BASE_DIR, "static/")
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SWAGGER_SETTINGS = {
+    "LOGIN_URL": "/admin",
+    "LOGOUT_URL": "/admin/logout",
+    "PERSIST_AUTH": True,
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+    "REFETCH_SCHEMA_ON_LOGOUT": True,
+    "DEFAULT_INFO": "DjangoDrfTest.urls.swagger_info",
+    "SECURITY_DEFINITIONS": {
+        "Basic": {"type": "basic"},
+        "Bearer": {"type": "apiKey", "name": "authorization", "in": "header"},
+        #"Query": {"type": "apiKey", "name": "auth", "in": "query"},
+    },
+}
