@@ -47,6 +47,15 @@ class LoginViewSet(viewsets.ModelViewSet):
     queryset = SalesPeople.objects.all()
     serializer_class = LoginSerializer
     http_method_names = ["post"]
+    def listed(self, request):
+        token = request.data.get("token")
+        token = Token.objects.filter(token=token).first()
+        if token:
+            pass
+        else:
+            return Response(
+                {"error": "Not logged in"}, status=status.HTTP_401_UNAUTHORIZED
+            )
 
     # @action(detail=False, methods=["post"])
     @swagger_auto_schema(responses={200: TokenSerializer()})

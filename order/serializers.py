@@ -4,11 +4,13 @@ import hashlib
 
 
 class ClientsSerializer(serializers.ModelSerializer):
+    token = TokenSerializer()
     class Meta:
         model = Clients
         fields = "__all__"
 
 class SalePeopleSerializer(serializers.ModelSerializer):
+    token = TokenSerializer()
     class Meta:
         model = SalesPeople
         fields = "__all__"
@@ -59,12 +61,14 @@ class LogoutSerializer(serializers.ModelSerializer):
 
 
 class PcsSerializer(serializers.ModelSerializer):
+    token = TokenSerializer()
     class Meta:
         model = Pcs
         fields = "__all__"
 
 
 class ProductsSerializer(serializers.ModelSerializer):
+    token = TokenSerializer()
     class Meta:
         model = Products
         fields = "__all__"
@@ -78,13 +82,13 @@ class PcsProductOrdersSerializer(serializers.ModelSerializer):
 
 class CaseCartSerializer(serializers.ModelSerializer):
     pcs_list = PcsProductOrdersSerializer(many=True)
-
     class Meta:
         model = CaseCart
         fields = "__all__"
 
 
 class CasesSerializer(serializers.ModelSerializer):
+    token = TokenSerializer()
     class Meta:
         model = Cases
         fields = "__all__"
@@ -92,7 +96,7 @@ class CasesSerializer(serializers.ModelSerializer):
 
 class OrdersSerializer(serializers.ModelSerializer):
     product_list = CaseCartSerializer(many=True)
-
+    token = TokenSerializer()
     class Meta:
         model = Orders
         fields = "__all__"
