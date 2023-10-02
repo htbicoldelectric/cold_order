@@ -17,7 +17,7 @@ class Clients(models.Model):
     listed = models.BooleanField(null=False, default=False)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "clients"
         app_label = "order"
 
@@ -40,7 +40,7 @@ class SalesPeople(models.Model):
     grade = models.CharField(max_length=64)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "salepeople"
         app_label = "order"
 
@@ -75,6 +75,11 @@ class Token(models.Model):
     def generate_key(cls):
         return binascii.hexlify(os.urandom(20)).decode()
 
+    class Meta:
+        managed = False
+        db_table = "order_token"
+        app_label = "order"
+
 
 class Pcs(models.Model):
     pcs_id = models.CharField(
@@ -84,7 +89,7 @@ class Pcs(models.Model):
     price = models.IntegerField()
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "pcs"
         app_label = "order"
 
@@ -105,7 +110,7 @@ class Products(models.Model):
     price = models.IntegerField()
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "products"
         app_label = "order"
 
@@ -118,11 +123,13 @@ class Products(models.Model):
         super(Products, self).save(*args, **kwargs)
 
 
+
 class Cases(models.Model):
     case_id = models.CharField(
         primary_key=True, unique=True, editable=False, max_length=64
     )
     address = models.CharField(max_length=64)
+    client = models.ForeignKey(Clients, models.PROTECT)
     construction_start = models.DateField(null=True, default="")
     construction_pre_end = models.DateField(null=True, default="")
     construction_end = models.DateField(null=True, default="")
@@ -137,7 +144,7 @@ class Cases(models.Model):
     note = models.CharField(blank=True, null=True, max_length=64)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "cases"
         app_label = "order"
 
@@ -148,7 +155,6 @@ class Cases(models.Model):
         while Cases.objects.filter(case_id=self.case_id).exists():
             self.case_id = f"case{t.year}{t.month}{t.day}" + str(uuid.uuid4())[:4]
         super(Cases, self).save(*args, **kwargs)
-
 
 class Orders(models.Model):
     order_id = models.CharField(
@@ -165,7 +171,7 @@ class Orders(models.Model):
     total_price = models.IntegerField()
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "orders"
         app_label = "order"
 
@@ -178,15 +184,18 @@ class Orders(models.Model):
         super(Orders, self).save(*args, **kwargs)
 
 
+
 class CaseCart(models.Model):
     case_cart_id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Products, models.PROTECT)
     amount = models.IntegerField()
     total_price = models.IntegerField()
+    total_cost = models.FloatField()
     order = models.ForeignKey(Orders, models.PROTECT)
+    warranty = models.CharField(max_length=64)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "case_cart"
         app_label = "order"
 
@@ -198,6 +207,6 @@ class PcsProductOrders(models.Model):
     product_order = models.ForeignKey(CaseCart, models.PROTECT)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "pcs_product_orders"
         app_label = "order"
