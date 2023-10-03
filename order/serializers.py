@@ -2,16 +2,15 @@ from rest_framework import serializers
 from order.models import *
 import hashlib
 
-class TokenSerializer(serializers.ModelSerializer):
 
+class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = ["token"]
-        
 
 
 class ClientsSerializer(serializers.ModelSerializer):
-    #token = TokenSerializer()
+    # token = TokenSerializer()
 
     class Meta:
         model = Clients
@@ -19,7 +18,7 @@ class ClientsSerializer(serializers.ModelSerializer):
 
 
 class SalePeopleSerializer(serializers.ModelSerializer):
-    #token = TokenSerializer()
+    # token = TokenSerializer()
 
     class Meta:
         model = SalesPeople
@@ -30,6 +29,9 @@ class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalesPeople
         fields = "__all__"
+        extra_kwargs = {
+            "password": {"write_only": True},
+        }
 
     def create(self, validated_data):
         password = validated_data.pop("password")
@@ -72,14 +74,12 @@ class LogoutSerializer(serializers.ModelSerializer):
 
 
 class PcsSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Pcs
         fields = "__all__"
 
 
 class ProductsSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Products
         fields = "__all__"
@@ -100,7 +100,6 @@ class CaseCartSerializer(serializers.ModelSerializer):
 
 
 class CasesSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Cases
         fields = "__all__"
@@ -108,8 +107,35 @@ class CasesSerializer(serializers.ModelSerializer):
 
 class OrdersSerializer(serializers.ModelSerializer):
     product_list = CaseCartSerializer(many=True)
-    #token = LoginTokenSerializer()
+    # token = LoginTokenSerializer()
 
     class Meta:
         model = Orders
         fields = "__all__"
+
+
+class CasesSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Cases
+        fields = "__all__"
+
+
+class OrdersSerializer2(serializers.ModelSerializer):
+    cases = CasesSerializer2()
+    product_list = CaseCartSerializer(many=True)
+    # token = LoginTokenSerializer()
+
+    class Meta:
+        model = Orders
+        fields = [
+            "cases",
+            "product_list",
+            "client",
+            "order_apartment",
+            "order_date",
+            "delivery_date",
+            "salesperson",
+            "deliver_address",
+            "contact",
+            "total_price",
+        ]

@@ -8,6 +8,7 @@ from order import views
 
 router = DefaultRouter()
 router.register(r"order", views.OrdersViewSet)
+router.register(r"order2", views.OrdersViewSet2)
 router.register(r"case", views.CasesViewSet)
 router.register(r'pcs', views.PcsViewSet)
 router.register(r"product", views.ProductsViewSet)
