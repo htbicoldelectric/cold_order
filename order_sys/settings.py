@@ -25,8 +25,8 @@ SECRET_KEY = "django-insecure-mgz96eoowot!qu1!$az9f@fnqz4sm(el-*mf#shjx6inmby)cj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["api.coldelectric.com", "127.0.0.1"]
-
+#ALLOWED_HOSTS = ["api.coldelectric.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -141,8 +141,8 @@ SWAGGER_SETTINGS = {
     "LOGIN_URL": "/admin",
     "LOGOUT_URL": "/admin/logout",
     "PERSIST_AUTH": True,
-    "REFETCH_SCHEMA_WITH_AUTH": True,
-    "REFETCH_SCHEMA_ON_LOGOUT": True,
+    #"REFETCH_SCHEMA_WITH_AUTH": True,
+    #"REFETCH_SCHEMA_ON_LOGOUT": True,
     "DEFAULT_INFO": "DjangoDrfTest.urls.swagger_info",
     "SECURITY_DEFINITIONS": {
         "Basic": {"type": "basic"},

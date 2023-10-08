@@ -12,7 +12,7 @@ from rest_framework.response import Response
 class OrdersViewSet(viewsets.ModelViewSet):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "options"]
 
     @action(detail=False, methods=["GET"])
     @swagger_auto_schema(
@@ -45,19 +45,19 @@ class OrdersViewSet2(viewsets.ModelViewSet):
 class CasesViewSet(viewsets.ModelViewSet):
     queryset = Cases.objects.all()
     serializer_class = CasesSerializer
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "options"]
 
 
 class ProductsViewSet(viewsets.ModelViewSet):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "options"]
 
 
 class ClientsViewSet(viewsets.ModelViewSet):
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializer
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "options"]
 
     @action(detail=False, methods=["GET"])
     @swagger_auto_schema(
@@ -187,4 +187,4 @@ class LogoutViewSet(viewsets.ModelViewSet):
 class PcsViewSet(viewsets.ModelViewSet):
     queryset = Pcs.objects.all()
     serializer_class = PcsSerializer
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "options"]
