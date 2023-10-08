@@ -40,7 +40,7 @@ class OrdersViewSet(viewsets.ModelViewSet):
 class OrdersViewSet2(viewsets.ModelViewSet):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer2
-    http_method_names = ["post"]
+    http_method_names = ["post", "options"]
     
 class CasesViewSet(viewsets.ModelViewSet):
     queryset = Cases.objects.all()
@@ -81,6 +81,8 @@ class ClientsViewSet(viewsets.ModelViewSet):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    def options(self, request, *args, **kwargs):
+        return super().options(request, *args, **kwargs)
 
 class SignupViewSet(viewsets.ModelViewSet):
     queryset = SalesPeople.objects.all()
@@ -166,6 +168,8 @@ class LoginViewSet(viewsets.ModelViewSet):
                 {"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
             )
 
+    def options(self, request, *args, **kwargs):
+        return super().options(request, *args, **kwargs)
 
 class LogoutViewSet(viewsets.ModelViewSet):
     queryset = Token.objects.all()
@@ -183,8 +187,13 @@ class LogoutViewSet(viewsets.ModelViewSet):
                 {"error": "Not logged in"}, status=status.HTTP_401_UNAUTHORIZED
             )
 
+    def options(self, request, *args, **kwargs):
+        return super().options(request, *args, **kwargs)
 
 class PcsViewSet(viewsets.ModelViewSet):
     queryset = Pcs.objects.all()
     serializer_class = PcsSerializer
     http_method_names = ["get", "post", "options"]
+
+    def options(self, request, *args, **kwargs):
+        return super().options(request, *args, **kwargs)
