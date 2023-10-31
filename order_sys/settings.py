@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from .email_info import EMAIL_SENDGRID_API_KEY
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = "django-insecure-mgz96eoowot!qu1!$az9f@fnqz4sm(el-*mf#shjx6inmby)cj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ["api.coldelectric.com", "127.0.0.1"]
+# ALLOWED_HOSTS = ["api.coldelectric.com", "127.0.0.1"]
 ALLOWED_HOSTS = ["*"]
 
 # Application definition
@@ -40,7 +42,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "redis",
     "order",
+    "doc_login",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +62,7 @@ ROOT_URLCONF = "order_sys.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["doc_login/build"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -113,6 +117,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -131,7 +144,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = Path("/").joinpath(BASE_DIR, "static/")
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "doc_login/build/static"),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -141,12 +156,16 @@ SWAGGER_SETTINGS = {
     "LOGIN_URL": "/admin",
     "LOGOUT_URL": "/admin/logout",
     "PERSIST_AUTH": True,
-    #"REFETCH_SCHEMA_WITH_AUTH": True,
-    #"REFETCH_SCHEMA_ON_LOGOUT": True,
+    # "REFETCH_SCHEMA_WITH_AUTH": True,
+    # "REFETCH_SCHEMA_ON_LOGOUT": True,
     "DEFAULT_INFO": "DjangoDrfTest.urls.swagger_info",
     "SECURITY_DEFINITIONS": {
         "Basic": {"type": "basic"},
         "Bearer": {"type": "apiKey", "name": "authorization", "in": "header"},
-        #"Query": {"type": "apiKey", "name": "auth", "in": "query"},
+        # "Query": {"type": "apiKey", "name": "auth", "in": "query"},
     },
 }
+
+# email_info
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = EMAIL_SENDGRID_API_KEY
