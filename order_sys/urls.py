@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.urls import include, re_path, path
 from rest_framework.routers import DefaultRouter
 from rest_framework import permissions
@@ -36,8 +36,8 @@ router.register(r"signup", SignupViewSet)
 
 
 urlpatterns = [
-    path("doc/", login_required(login_url='/login')(schema_view.with_ui("swagger", cache_timeout=0)), name="schema-doc"),
-    path("redoc/", login_required(login_url='/login')(schema_view.with_ui("redoc", cache_timeout=0)), name="schema-redoc"),
+    path("doc/", verify_required(login_url='/login')(schema_view.with_ui("swagger", cache_timeout=0)), name="schema-doc"),
+    path("redoc/", verify_required(login_url='/login')(schema_view.with_ui("redoc", cache_timeout=0)), name="schema-redoc"),
     re_path(r"^api/", include(router.urls)),
     path("login/", login_view, name="login"),  
     path("verify-code/", verify_code_view, name="verify-code"),
